@@ -40,6 +40,24 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users', // Ganti nanti jika autentikasi berbasis admin/pustakawan/anggota
+        ],
+        'admin' => [
+            'driver' => 'jwt',
+            'provider' => 'admins',
+        ],
+
+        'pustakawan' => [
+            'driver' => 'jwt',
+            'provider' => 'pustakawans',
+        ],
+
+        'anggota' => [
+            'driver' => 'jwt',
+            'provider' => 'anggotas',
+        ],
     ],
 
     /*
@@ -63,6 +81,18 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+        'pustakawans' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Pustakawan::class,
+        ],
+        'anggotas' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Anggota::class,
         ],
 
         // 'users' => [
