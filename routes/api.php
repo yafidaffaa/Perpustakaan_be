@@ -7,6 +7,12 @@ use App\Http\Controllers\Auth\PustakawanAuthController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\Auth\AnggotaAuthController;
 
+use App\Http\Controllers\{
+    AdminController,
+    PustakawanController,
+    AnggotaController,
+    KategoriBukuController
+};
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:api')->group(function () {

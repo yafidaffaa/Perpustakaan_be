@@ -4,62 +4,49 @@ namespace App\Http\Controllers;
 
 use App\Models\Anggota;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AnggotaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return Anggota::with('pustakawan')->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $r)
     {
-        //
+        $data = $r->validate([
+            'id_pustakawan' => 'required|exists:pustakawans,id_pustakawan',
+            'nama_anggota' => 'required',
+            'usr_anggota' => 'required|unique:anggotas',
+            'pw_anggota' => 'required',
+            'no_tlp_anggota' => 'required',
+            'alamat_anggota' => 'required',
+        ]);
+        $data['pw_anggota'] = Hash::make($data['pw_anggota']);
+        return Anggota::create($data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show($id)
     {
-        //
+        return Anggota::with('pustakawan')->findOrFail($id);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Anggota $anggota)
+    public function update(Request $r, $id)
     {
-        //
+        $a = Anggota::findOrFail($id);
+        $a->update([
+            'nama_anggota' => $r->nama_anggota,
+            'pw_anggota' => Hash::make($r->pw_anggota),
+            'no_tlp_anggota' => $r->no_tlp_anggota,
+            'alamat_anggota' => $r->alamat_anggota,
+        ]);
+        return $a;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Anggota $anggota)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Anggota $anggota)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Anggota $anggota)
-    {
-        //
+        Anggota::destroy($id);
+        return ['message' => 'Anggota deleted'];
     }
 }

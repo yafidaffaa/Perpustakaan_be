@@ -7,59 +7,32 @@ use Illuminate\Http\Request;
 
 class KategoriBukuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return KategoriBuku::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate(['nama_kategori' => 'required']);
+        return KategoriBuku::create(['nama_kategori' => $request->nama_kategori]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(KategoriBuku $kategoriBuku)
+    public function show($id)
     {
-        //
+        return KategoriBuku::findOrFail($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(KategoriBuku $kategoriBuku)
+    public function update(Request $request, $id)
     {
-        //
+        $k = KategoriBuku::findOrFail($id);
+        $k->update(['nama_kategori' => $request->nama_kategori]);
+        return $k;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, KategoriBuku $kategoriBuku)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(KategoriBuku $kategoriBuku)
-    {
-        //
+        KategoriBuku::destroy($id);
+        return ['message' => 'Kategori dihapus'];
     }
 }
